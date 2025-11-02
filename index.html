@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Home</title>
+  <style>
+    :root{
+      --accent: #e50914;
+      --dark-grad: linear-gradient(180deg, rgba(0,0,0,0.25), rgba(0,0,0,0.85));
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      color: #fff;
+    }
+    html,body{height:100%;margin:0;background:#000}
+    .site-header{
+      position:fixed;inset:0 0 auto 0;height:64px;display:flex;align-items:center;justify-content:space-between;
+      padding:0 28px;z-index:60;background:transparent;
+    }
+    .logo{font-weight:800;color:var(--accent);font-size:28px}
+    .nav{display:flex;gap:18px;align-items:center}
+    .nav a{color:rgba(255,255,255,0.9);text-decoration:none;font-size:14px}
+    /* Hero */
+    .hero{
+      position:relative;height:78vh;min-height:420px;display:flex;align-items:flex-end;
+      background-image:
+        /* local fallback */ url('hero.jpg'),
+        /* online fallback */ url('https://images.unsplash.com/photo-1505685296765-3a2736de412f?auto=format&fit=crop&w=1950&q=80');
+      background-size:cover;background-position:center center;
+    }
+    .hero::before{content:"";position:absolute;inset:0;background:var(--dark-grad);z-index:1}
+    .hero-content{position:relative;z-index:2;padding:48px 56px;margin-bottom:48px;max-width:900px}
+    .kicker{font-size:14px;color:#46d369;font-weight:700;margin-bottom:10px}
+    .hero-title{font-size:64px;line-height:0.9;margin:0 0 12px;font-weight:800;letter-spacing:-1px}
+    .hero-desc{font-size:16px;color:rgba(255,255,255,0.85);max-width:70%;margin-bottom:18px}
+    .hero-meta{display:flex;gap:14px;align-items:center;color:rgba(255,255,255,0.8);font-size:14px;margin-bottom:18px}
+    .hero-actions{display:flex;gap:12px}
+    .btn{display:inline-flex;align-items:center;gap:10px;padding:12px 18px;border-radius:4px;border:0;font-weight:700;cursor:pointer}
+    .btn-play{background:#fff;color:#000}
+    .btn-list{background:rgba(109,109,110,0.6);color:#fff}
+    /* bottom nav like tabs */
+    .hero-tabs{position:relative;z-index:2;padding:12px 56px 48px;display:flex;gap:24px;font-size:13px;color:rgba(255,255,255,0.85)}
+    /* responsive */
+    @media (max-width:900px){
+      .hero-title{font-size:36px}
+      .hero-desc{max-width:100%}
+      .site-header{padding:0 16px}
+      .hero-content{padding:28px 20px;margin-bottom:36px}
+      .hero{height:65vh}
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header" role="banner">
+    <div class="logo">NETFLIX</div>
+    <nav class="nav" aria-label="Main">
+      <a href="#">Home</a>
+      <a href="#">TV Shows</a>
+      <a href="#">Movies</a>
+      <a href="#">My List</a>
+    </nav>
+  </header>
+
+  <section class="hero" role="region" aria-label="Featured">
+    <div class="hero-content">
+      <div class="kicker">N SERIES</div>
+      <h1 class="hero-title">YOUR TITLE HERE</h1>
+      <p class="hero-desc">
+        Add your text here. Create your hero description — short promotional copy that explains the show or movie.
+      </p>
+
+      <div class="hero-meta">
+        <div style="color:#46d369;font-weight:700">99% Match</div>
+        <div>2022</div>
+        <div>13+</div>
+        <div>5 Seasons</div>
+      </div>
+
+      <div class="hero-actions">
+        <button class="btn btn-play" id="playBtn">► Play</button>
+        <button class="btn btn-list" id="listBtn">+ My List</button>
+      </div>
+    </div>
+  </section>
+
+  <nav class="hero-tabs" aria-label="Sections">
+    <a href="#">Overview</a>
+    <a href="#">Episodes</a>
+    <a href="#">More like this</a>
+    <a href="#">Details</a>
+  </nav>
+
+  <script>
+    // behavior: Play -> go to player.html (tùy bạn), My List -> save to localStorage simple demo
+    document.getElementById('playBtn').addEventListener('click', ()=> {
+      // chuyển tới trang phát phim (thay đổi URL theo dự án)
+      location.href = 'player.html';
+    });
+    document.getElementById('listBtn').addEventListener('click', ()=> {
+      const saved = JSON.parse(localStorage.getItem('myList')||'[]');
+      saved.push({id: 'featured-1', title: 'YOUR TITLE HERE'});
+      localStorage.setItem('myList', JSON.stringify(saved));
+      alert('Added to My List');
+    });
+  </script>
+</body>
+</html>

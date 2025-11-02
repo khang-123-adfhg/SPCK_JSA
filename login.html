@@ -1,40 +1,43 @@
+
 <!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Login</title>
-  <link rel="stylesheet" href="/SPCK/spck._log_in.css">
+  <title>Log in</title>
+  <link rel="stylesheet" href="spck._log_in.css">
 </head>
 <body>
   <div class="layout">
     <aside class="left-panel">
-      <div class="login-card">
+      <div class="login-card" role="dialog" aria-label="Sign in">
         <div class="brand">NK</div>
-        <h1>Hello!</h1>
-        <p class="desc">To Log In To Your Account, Enter Your Email Address And Password.</p>
+        <h1>Welcome back!</h1>
+        <p class="desc">To log in to your account, enter your email address and password.</p>
 
         <form id="loginForm">
-          <label for="email">Your email address</label>
-          <input id="email" name="email" type="email" value="" />
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" autocomplete="username" />
 
-          <label for="password">Your password</label>
-          <input id="password" name="password" type="password" />
+          <label for="password">Password</label>
+          <input id="password" name="password" type="password" autocomplete="current-password" />
 
-          <a class="forgot" href="#">Forgot Password?</a>
-          <button class="btn" type="submit">Next step</button>
+          <button class="btn" type="submit">Log in</button>
+
+          <div class="extras">
+            <label class="remember"><input type="checkbox" /> Remember me</label>
+            <a class="help" href="#">Need help?</a>
+          </div>
         </form>
 
         <p class="support">Don't hesitate to contact us at<br><a href="dangtrackhang1505212@gmail.com">support@bonsante.com</a></p>
       </div>
     </aside>
 
-    <main class="right-panel">
+    <main class="right-panel" aria-hidden="true">
       <div class="hero-overlay">
         <div class="hero-content">
-          
-          
-    
+          <!-- decorative hero, can be left empty or add promo text -->
         </div>
       </div>
     </main>
@@ -44,5 +47,11 @@
     // small helper to prevent submit reload during testing
     document.getElementById('loginForm')?.addEventListener('submit', e => e.preventDefault());
   </script>
+  <!-- ...existing code... -->
+  <!-- thay thế đoạn script inline hiện tại bằng dòng này -->
+  <script src="signin.js"></script>
+</body>
+</html>
+<!-- ...existing code... -->
 </body>
 </html>
