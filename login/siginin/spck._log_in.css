@@ -13,7 +13,7 @@
 html,body{height:100%;margin:0}
 body{
   /* ưu tiên dùng bg.jpg trong thư mục; nếu không có, thay bằng URL ảnh online */
-  background-image: url('/rDJegQJaCyGaYysj2g5XWY.jpg'), url('/rDJegQJaCyGaYysj2g5XWY.jpg');
+  background-image: url('/login/siginin/rDJegQJaCyGaYysj2g5XWY.jpg'), url('/login/siginin/rDJegQJaCyGaYysj2g5XWY.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

@@ -4,16 +4,16 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Log in</title>
+  <title>Signin</title>
   <link rel="stylesheet" href="spck._log_in.css">
 </head>
 <body>
   <div class="layout">
     <aside class="left-panel">
       <div class="login-card" role="dialog" aria-label="Sign in">
-        <div class="brand">NK</div>
-        <h1>Welcome back!</h1>
-        <p class="desc">To log in to your account, enter your email address and password.</p>
+        <div class="brand">AnimeHub</div>
+        <h1>Hello!</h1>
+        <p class="desc">To sign in to your account, enter your email address and password.</p>
 
         <form id="loginForm">
           <label for="email">Email</label>
@@ -22,7 +22,18 @@
           <label for="password">Password</label>
           <input id="password" name="password" type="password" autocomplete="current-password" />
 
-          <button class="btn" type="submit">Log in</button>
+          <button class="btn" type="submit">Sign In</button>
+          <form id="signupForm">
+  <button type="submit">Sign In</button>
+</form>
+
+<script>
+document.getElementById('signupForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  window.location.href = 'index.html';
+});
+</script>
+
 
           <div class="extras">
             <label class="remember"><input type="checkbox" /> Remember me</label>
@@ -30,7 +41,7 @@
           </div>
         </form>
 
-        <p class="support">Don't hesitate to contact us at<br><a href="dangtrackhang1505212@gmail.com">support@bonsante.com</a></p>
+        <p class="support">Don't hesitate to contact us at<br><a href=>dangtrackhang1505212@gmail.com</a></p>
       </div>
     </aside>
 
@@ -47,11 +58,5 @@
     // small helper to prevent submit reload during testing
     document.getElementById('loginForm')?.addEventListener('submit', e => e.preventDefault());
   </script>
-  <!-- ...existing code... -->
-  <!-- thay thế đoạn script inline hiện tại bằng dòng này -->
-  <script src="signin.js"></script>
-</body>
-</html>
-<!-- ...existing code... -->
 </body>
 </html>
