@@ -1,0 +1,41 @@
+<!-- ...existing code... -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Log in</title>
+  <link rel="stylesheet" href="spck._log_in.css">
+</head>
+<body>
+  <div class="layout">
+    <aside class="left-panel">
+      <div class="login-card" role="dialog" aria-label="Sign in">
+        <div class="brand">AnimeHub</div>
+        <h1>Welcome back!</h1>
+        <p class="desc">To log in to your account, enter your email address and password.</p>
+
+        <!-- single, correct form -->
+        <form id="loginForm">
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" autocomplete="username" required />
+
+          <label for="password">Password</label>
+          <input id="password" name="password" type="password" autocomplete="current-password" required />
+
+          <button class="btn btn-danger" type="submit">Sign In</button>
+
+          <div class="extras">
+            <label class="remember"><input type="checkbox" id="remember" /> Remember me</label>
+            <a class="help" href="#">Need help?</a>
+          </div>
+        </form>
+
+        <p class="support">Don't hesitate to contact us at<br><a href="mailto:dangtrackhang1505212@gmail.com">dangtrackhang1505212@gmail.com</a></p>
+      </div>
+    </aside>
+  </div>
+
+
+
+<!-- ...existing code... -->

@@ -69,3 +69,19 @@ const movies = [
     image: "img/weatheringwithyou.jpg"
   }
 ];
+
+// ...existing code...
+(function(){
+  document.addEventListener('DOMContentLoaded', () => {
+    const logoutBtn = document.getElementById('logoutBtn');
+    if (!logoutBtn) return;
+    logoutBtn.addEventListener('click', () => {
+      // xóa thông tin đăng nhập
+      localStorage.removeItem('currentUser');
+      sessionStorage.removeItem('currentUser');
+      // chuyển về trang đăng nhập (chỉnh path nếu cần)
+      location.href = 'mainpage\signin.html';
+    });
+  });
+})();
+// ...existing code...
