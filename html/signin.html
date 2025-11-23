@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sign In</title>
+    <link rel="stylesheet" href="../css/sign.css" />
+  </head>
+
+  <body>
+    <div class="layout">
+      <aside class="left-panel">
+        <div class="login-card" role="dialog" aria-label="Sign in">
+          <div class="brand">AnimeHub</div>
+          <h1>Welcome back!</h1>
+          <p class="desc">Enter your email and password to sign in.</p>
+
+          <form id="loginForm">
+            <label for="email">Email</label>
+            <input id="email" type="email" autocomplete="username" required />
+
+            <label for="password">Password</label>
+            <input
+              id="password"
+              type="password"
+              autocomplete="current-password"
+              required
+            />
+
+            <button class="btn" type="submit">Sign In</button>
+
+            <div class="extras">
+              <label class="remember"
+                ><input type="checkbox" id="remember" /> Remember me</label
+              >
+              <a class="help" href="signup.html">Create account</a>
+            </div>
+          </form>
+
+          <p class="support">
+            Need help? <br />
+            <a href="mailto:dangtrackhang1505212@gmail.com"
+              >dangtrackhang1505212@gmail.com</a
+            >
+          </p>
+        </div>
+      </aside>
+
+      <main class="right-panel" aria-hidden="true">
+        <div class="hero-overlay"></div>
+      </main>
+    </div>
+
+    <script src="../js/sign.js"></script>
+  </body>
+</html>

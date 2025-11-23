@@ -1,0 +1,206 @@
+:root {
+  --bg-overlay: rgba(0, 0, 0, 0.55);
+  --card-bg: rgba(0, 0, 0, 0.78);
+  --input-bg: rgba(0, 0, 0, 0.45);
+  --accent: #e50914; /* red accent */
+  --text: #ffffff;
+  --muted: #b3b3b3;
+  --card-width: 520px; /* phóng to khung đăng nhập */
+  font-family: "Helvetica Neue", Arial, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+body {
+  /* ưu tiên dùng bg.jpg trong thư mục; nếu không có, thay bằng URL ảnh online */
+  background-image: url("../img/background.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  color: var(--text);
+}
+
+/* dark overlay to mimic streaming login */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.8));
+  pointer-events: none;
+}
+
+.layout {
+  position: relative; /* cho phép đặt right-panel làm nền */
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center; /* căn giữa theo cả hai trục */
+}
+
+/* left panel (login card) */
+.left-panel {
+  width: var(--card-width);
+  max-width: 92%;
+  padding: 0; /* padding nội tại trong .login-card */
+  z-index: 2;
+  position: relative;
+  margin: auto; /* giữ ở giữa khi có right-panel */
+}
+.login-card {
+  width: 100%;
+  background: var(--card-bg);
+  padding: 44px;
+  border-radius: 8px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(6px);
+}
+
+/* right panel: sử dụng như background hero, đặt phủ toàn màn hình */
+.right-panel {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  display: block;
+  background: transparent;
+}
+
+/* nếu cần overlay hình ảnh/gradient ở right-panel */
+.right-panel .hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.55));
+  pointer-events: none;
+}
+
+/* Các phần còn lại giữ nguyên (form, button, v.v.) */
+/* ...existing code... */
+.brand {
+  font-weight: 700;
+  color: var(--accent);
+  font-size: 28px;
+  margin-bottom: 14px;
+}
+.login-card h1 {
+  margin: 0 0 8px 0;
+  font-size: 28px;
+}
+.desc {
+  margin: 0 0 18px 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+/* form */
+label {
+  display: block;
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 6px;
+  margin-top: 12px;
+}
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: var(--input-bg);
+  color: var(--text);
+  outline: none;
+  font-size: 14px;
+}
+
+input::placeholder {
+  color: rgba(255, 255, 255, 0.35);
+}
+input:focus {
+  box-shadow: 0 0 0 3px rgba(233, 9, 20, 0.08);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+/* button */
+.btn {
+  margin-top: 18px;
+  width: 100%;
+  padding: 12px 14px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 15px;
+  box-shadow: 0 4px 12px rgba(229, 9, 20, 0.18);
+}
+.btn:hover {
+  filter: brightness(1.03);
+}
+
+/* extras row */
+.extras {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 12px;
+  color: var(--muted);
+  font-size: 13px;
+}
+.remember input {
+  margin-right: 8px;
+}
+.help {
+  color: var(--muted);
+  text-decoration: none;
+}
+.help:hover {
+  text-decoration: underline;
+}
+
+/* support text */
+.support {
+  margin-top: 20px;
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.3;
+}
+.support a {
+  color: var(--muted);
+  text-decoration: none;
+}
+
+/* responsive */
+@media (max-width: 880px) {
+  .layout {
+    align-items: flex-start;
+    padding: 40px 16px;
+  }
+  .right-panel {
+    display: none;
+  }
+  .left-panel {
+    width: 100%;
+    max-width: 420px;
+    padding: 0;
+  }
+  .login-card {
+    padding: 28px;
+  }
+}
+#loginForm {
+  pointer-events: auto;
+}
+#loginForm a {
+  pointer-events: auto;
+}
+#loginForm button {
+  pointer-events: auto;
+}

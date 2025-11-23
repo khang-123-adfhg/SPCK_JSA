@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="../css/sign.css" />
+  </head>
+
+  <body>
+    <div class="layout">
+      <aside class="left-panel">
+        <div class="login-card" role="dialog" aria-label="Sign up">
+          <div class="brand">AnimeHub</div>
+          <h1>Create Account</h1>
+          <p class="desc">Fill your information to create a new account.</p>
+
+          <form id="registerForm">
+            <label for="username">Username</label>
+            <input id="username" type="text" required />
+
+            <label for="email">Email</label>
+            <input id="email" type="email" required />
+
+            <label for="password">Password</label>
+            <input id="password" type="password" required />
+
+            <label for="confirmPassword">Confirm Password</label>
+            <input id="confirmPassword" type="password" required />
+
+            <button class="btn" type="submit">Sign Up</button>
+
+            <div class="extras">
+              <a class="help" href="signin.html">Already have an account?</a>
+            </div>
+          </form>
+        </div>
+      </aside>
+
+      <main class="right-panel" aria-hidden="true">
+        <div class="hero-overlay"></div>
+      </main>
+    </div>
+
+    <script src="../js/sign.js"></script>
+  </body>
+</html>
