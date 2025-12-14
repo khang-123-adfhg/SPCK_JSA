@@ -1,5 +1,5 @@
 body {
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 .banner-img {
@@ -16,4 +16,8 @@ body {
 .detail-img {
   max-height: 500px;
   object-fit: cover;
+}
+
+.navbar {
+  z-index: 1000;
 }

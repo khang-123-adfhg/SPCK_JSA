@@ -5,198 +5,213 @@ const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500";
 
 // ===== API CALLS =====
 
-// Lấy danh sách phim Anime (Animation = genre 16)
+// Lấy danh sách anime (Animation = 16)
 async function fetchAnimeMovies(page = 1) {
   const url = `${BASE_URL}/discover/movie?api_key=${API_KEY}&language=vi-VN&with_genres=16&page=${page}&sort_by=popularity.desc`;
   const res = await fetch(url);
-  if (!res.ok) throw new Error("Không thể tải dữ liệu anime");
+  if (!res.ok) throw new Error("Không thể tải danh sách anime");
   const data = await res.json();
   return data.results || [];
 }
 
-// Lấy chi tiết 1 phim
+// Search phim
+async function searchMovies(keyword) {
+  const url = `${BASE_URL}/search/movie?api_key=${API_KEY}&language=vi-VN&query=${encodeURIComponent(
+    keyword
+  )}`;
+  const res = await fetch(url);
+  if (!res.ok) throw new Error("Không tìm được phim");
+  const data = await res.json();
+  return data.results || [];
+}
+
+// Lấy chi tiết phim
 async function fetchMovieDetail(id) {
   const url = `${BASE_URL}/movie/${id}?api_key=${API_KEY}&language=vi-VN`;
   const res = await fetch(url);
-  if (!res.ok) throw new Error("Không thể tải thông tin chi tiết phim");
+  if (!res.ok) throw new Error("Không thể tải chi tiết phim");
   return await res.json();
 }
 
-// Tạo URL ảnh
+// ===== HELPER =====
 function getImageUrl(path) {
-  if (!path) return "img/background.jpg"; // ảnh fallback nếu phim không có poster
+  if (!path) return "../img/background.jpg";
   return `${IMAGE_BASE_URL}${path}`;
 }
 
-// ===== HOME PAGE (index.html) =====
+// ===== HOME PAGE =====
 async function initHomePage() {
-  const bannerContainer = document.getElementById("bannerContainer");
-  const popularContainer = document.getElementById("popularContainer");
-  const RomanticContainer = document.getElementById("RomanticContainer");
-  const SciencefictionContainer = document.getElementById("SciencefictionContainer");
-  // Nếu không phải index.html thì thoát
-  if (!bannerContainer || !popularContainer || !RomanticContainer || !SciencefictionContainer ) return;
+  const banner = document.getElementById("bannerContainer");
+  const popular = document.getElementById("popularContainer");
+  const romantic = document.getElementById("RomanticContainer");
+  const sci = document.getElementById("SciencefictionContainer");
+
+  if (!banner || !popular || !romantic || !sci) return;
 
   try {
     const movies = await fetchAnimeMovies(1);
 
-    // 5 phim đầu cho banner
-    bannerContainer.innerHTML = "";
-    movies.slice(0, 5).forEach((movie, index) => {
-      bannerContainer.innerHTML += `
-        <div class="carousel-item ${index === 0 ? "active" : ""}">
-          <img src="${getImageUrl(movie.backdrop_path || movie.poster_path)}"
-               class="d-block w-100 banner-img"
-               alt="${movie.title}">
-          <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded">
-            <h5>${movie.title}</h5>
-            <p>${movie.overview || ""}</p>
-            <button class="btn btn-info" onclick="viewMovie(${movie.id})">
+    // ----- Banner -----
+    banner.innerHTML = "";
+    movies.slice(0, 5).forEach((m, i) => {
+      banner.innerHTML += `
+        <div class="carousel-item ${i === 0 ? "active" : ""}">
+          <img src="${getImageUrl(
+            m.backdrop_path || m.poster_path
+          )}" class="d-block w-100 banner-img">
+          <div class="carousel-caption bg-dark bg-opacity-50 rounded">
+            <h5>${m.title}</h5>
+            <p>${m.overview || ""}</p>
+            <button class="btn btn-info" onclick="viewMovie(${m.id})">
               ▶ Xem ngay
             </button>
           </div>
         </div>`;
     });
 
-    // 6 phim tiếp theo cho list “phim nổi tiếng” (ở đây vẫn là anime)
-    popularContainer.innerHTML = "";
-    movies.slice(5, 11).forEach((movie) => {
-      const shortOverview = movie.overview
-        ? movie.overview.length > 70
-          ? movie.overview.slice(0, 70) + "..."
-          : movie.overview
-        : "";
+    // ----- Popular -----
+    renderMovieList(popular, movies.slice(5, 11));
 
-      popularContainer.innerHTML += `
-    <div class="col-md-4 mb-4">
-      <div class="card bg-dark text-light h-100"
-           onclick="viewMovie(${movie.id})"
-           style="cursor:pointer;">
-        <img src="${getImageUrl(movie.poster_path || movie.backdrop_path)}"
-             class="card-img-top"
-             alt="${movie.title}">
-        <div class="card-body">
-          <h5 class="card-title text-info">${movie.title}</h5>
-          <p class="card-text">${shortOverview}</p>
-        </div>
-      </div>
-    </div>`;
-    });
+    // ----- Romantic -----
+    renderMovieList(romantic, movies.slice(11, 17));
 
-    // 6 phim cho list “phim tình cảm” (ví dụ dùng slice 11-17)
-    RomanticContainer.innerHTML = "";
-    movies.slice(11, 17).forEach((movie) => {
-      const shortOverview = movie.overview
-        ? movie.overview.length > 70
-          ? movie.overview.slice(0, 70) + "..."
-          : movie.overview
-        : "";
-
-      RomanticContainer.innerHTML += `
-    <div class="col-md-4 mb-4">
-      <div class="card bg-dark text-light h-100"
-           onclick="viewMovie(${movie.id})"
-           style="cursor:pointer;">
-        <img src="${getImageUrl(movie.poster_path || movie.backdrop_path)}"
-             class="card-img-top"
-             alt="${movie.title}">
-        <div class="card-body">
-          <h5 class="card-title text-info">${movie.title}</h5>
-          <p class="card-text">${shortOverview}</p>
-        </div>
-      </div>
-    </div>`;
-    });
-
-    // 6 phim cho list “phim khoa học viễn tưởng” (ví dụ dùng slice 11-17)
-    SciencefictionContainer.innerHTML = "";
-    movies.slice(11, 17).forEach((movie) => {
-      const shortOverview = movie.overview
-        ? movie.overview.length > 70
-          ? movie.overview.slice(0, 70) + "..."
-          : movie.overview
-        : "";
-
-      SciencefictionContainer.innerHTML += `
-    <div class="col-md-4 mb-4">
-      <div class="card bg-dark text-light h-100"
-           onclick="viewMovie(${movie.id})"
-           style="cursor:pointer;">
-        <img src="${getImageUrl(movie.poster_path || movie.backdrop_path)}"
-             class="card-img-top"
-             alt="${movie.title}">
-        <div class="card-body">
-          <h5 class="card-title text-info">${movie.title}</h5>
-          <p class="card-text">${shortOverview}</p>
-        </div>
-      </div>
-    </div>`;
-    });
-
+    // ----- Science Fiction -----
+    renderMovieList(sci, movies.slice(17, 23));
   } catch (err) {
     console.error(err);
-    bannerContainer.innerHTML = `<p class="text-danger text-center mt-3">Không tải được dữ liệu phim.</p>`;
+    popular.innerHTML =
+      "<p class='text-danger'>Không tải được dữ liệu phim</p>";
   }
 }
-// Khi click “Xem ngay” từ index.html
-function viewMovie(id) {
-  localStorage.setItem("selectedMovieId", String(id));
-  window.location.href = "movie.html"; // movie.html nằm cùng thư mục với index.html
+
+// Render list phim
+function renderMovieList(container, movies) {
+  container.innerHTML = "";
+  movies.forEach((m) => {
+    const overview =
+      m.overview && m.overview.length > 70
+        ? m.overview.slice(0, 70) + "..."
+        : m.overview || "";
+
+    container.innerHTML += `
+      <div class="col-md-4 mb-4">
+        <div class="card bg-dark text-light h-100"
+             onclick="viewMovie(${m.id})"
+             style="cursor:pointer;">
+          <img src="${getImageUrl(m.poster_path)}" class="card-img-top">
+          <div class="card-body">
+            <h5 class="text-info">${m.title}</h5>
+            <p>${overview}</p>
+          </div>
+        </div>
+      </div>`;
+  });
 }
 
-// ===== MOVIE DETAIL PAGE (movie.html) =====
+// ===== SEARCH =====
+function renderSearchResult(movies) {
+  const container = document.getElementById("popularContainer");
+  if (!container) return;
+
+  container.innerHTML = "";
+
+  if (movies.length === 0) {
+    container.innerHTML = "<p class='text-warning'>Không tìm thấy phim</p>";
+    return;
+  }
+
+  movies.forEach((m) => {
+    const overview =
+      m.overview && m.overview.length > 70
+        ? m.overview.slice(0, 70) + "..."
+        : m.overview || "";
+
+    container.innerHTML += `
+      <div class="col-md-4 mb-4">
+        <div class="card bg-dark text-light h-100"
+             onclick="viewMovie(${m.id})"
+             style="cursor:pointer;">
+          <img src="${getImageUrl(m.poster_path)}" class="card-img-top">
+          <div class="card-body">
+            <h5 class="text-info">${m.title}</h5>
+            <p>${overview}</p>
+          </div>
+        </div>
+      </div>`;
+  });
+}
+
+function setupSearch() {
+  const input = document.getElementById("searchInput");
+  if (!input) return;
+
+  let timer = null;
+
+  input.addEventListener("input", () => {
+    clearTimeout(timer);
+    const keyword = input.value.trim();
+
+    timer = setTimeout(async () => {
+      if (!keyword) {
+        initHomePage();
+        return;
+      }
+      try {
+        const results = await searchMovies(keyword);
+        renderSearchResult(results);
+      } catch (e) {
+        console.error(e);
+      }
+    }, 500);
+  });
+}
+
+// ===== MOVIE DETAIL PAGE =====
 async function initMovieDetailPage() {
-  const detailContainer = document.getElementById("movieDetail");
-  if (!detailContainer) return; // không phải movie.html
+  const container = document.getElementById("movieDetail");
+  if (!container) return;
 
   const id = localStorage.getItem("selectedMovieId");
   if (!id) {
-    detailContainer.innerHTML = `
-      <div class="text-center mt-5">
-        <p class="text-danger">Không tìm thấy phim. Vui lòng quay lại trang chủ.</p>
-        <a href="index.html" class="btn btn-secondary mt-3">← Quay lại</a>
-      </div>`;
+    container.innerHTML = "<p class='text-danger'>Không tìm thấy phim</p>";
     return;
   }
 
   try {
     const movie = await fetchMovieDetail(id);
-
-    detailContainer.innerHTML = `
+    container.innerHTML = `
       <div class="text-center">
-        <img src="${getImageUrl(movie.backdrop_path || movie.poster_path)}"
-             class="img-fluid rounded mb-4 detail-img">
+        <img src="${getImageUrl(
+          movie.backdrop_path || movie.poster_path
+        )}" class="img-fluid rounded mb-4">
         <h2 class="text-info">${movie.title}</h2>
-        <p class="mt-3">
-          ${movie.overview || "Chưa có mô tả cho phim này."}
-        </p>
-        <p class="mt-2">
+        <p>${movie.overview || "Chưa có mô tả"}</p>
+        <p>
           <strong>Ngày phát hành:</strong> ${movie.release_date || "N/A"}<br>
-          <strong>Điểm TMDB:</strong> ${(movie.vote_average ?? 0).toFixed(
-            1
-          )} / 10
+          <strong>Điểm:</strong> ${movie.vote_average?.toFixed(1) || 0} / 10
         </p>
-        <a href="index.html" class="btn btn-secondary mt-3">← Quay lại</a>
+        <a href="index.html" class="btn btn-secondary">← Quay lại</a>
       </div>`;
   } catch (err) {
     console.error(err);
-    detailContainer.innerHTML = `
-      <div class="text-center mt-5">
-        <p class="text-danger">Không tải được chi tiết phim.</p>
-        <a href="index.html" class="btn btn-secondary mt-3">← Quay lại</a>
-      </div>`;
   }
 }
 
-// ===== LOGOUT CHUNG (index.html & movie.html) =====
-function setupLogout() {
-  const logoutBtn = document.getElementById("logoutBtn");
-  if (!logoutBtn) return;
+// ===== VIEW MOVIE =====
+function viewMovie(id) {
+  localStorage.setItem("selectedMovieId", id);
+  window.location.href = "movie.html";
+}
 
-  logoutBtn.addEventListener("click", () => {
+// ===== LOGOUT =====
+function setupLogout() {
+  const btn = document.getElementById("logoutBtn");
+  if (!btn) return;
+
+  btn.addEventListener("click", () => {
     localStorage.removeItem("currentUser");
     sessionStorage.removeItem("currentUser");
-    window.location.href = "signin.html"; // trang đăng nhập chính
+    window.location.href = "signin.html";
   });
 }
 
@@ -205,4 +220,5 @@ document.addEventListener("DOMContentLoaded", () => {
   setupLogout();
   initHomePage();
   initMovieDetailPage();
+  setupSearch();
 });
